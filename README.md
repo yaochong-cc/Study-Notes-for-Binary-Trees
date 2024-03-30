@@ -34,7 +34,7 @@ vector<int> preorderTraversal(TreeNode* root) {
 同理可以写出中序遍历和后序遍历的算法。
 
 中序遍历：
-
+、、、
  vector<int> inorderTraversal(TreeNode* root) {
      vector<int> res;
      if (root == NULL) return res;
@@ -54,7 +54,7 @@ vector<int> postorderTraversal(TreeNode* root) {
     res.push_back(root->val);
     return res;
 }
-
+、、、
 当然也可以先定义一个函数进行递归，再调用之。
 
 void traversal(TreeNode* cur, vector<int>& vec) {

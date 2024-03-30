@@ -3,13 +3,14 @@
 这是一个小白学习二叉树的学习笔记。
 
 ## 定义二叉树的节点
+```
 struct TreeNode {
     int val;
     TreeNode* left;
     TreeNode* right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}//该构造函数接受一个整数参数x，并使用该值初始化val成员变量，然后将left和right指针设置为NULL。
 };
-
+```
 ## 二叉树的遍历方式
 深度优先遍历        
 前序遍历：中->左->右
@@ -21,7 +22,7 @@ struct TreeNode {
  前序遍历：
 
 将遍历得到的数存入一个vector容器中，先存入根节点的值，之后先遍历左子树，再遍历右子树。对子树也依据相同的遍历逻辑，形成递归。
-
+```
 vector<int> preorderTraversal(TreeNode* root) {
     vector<int> res;
     if (root == NULL) return res;
@@ -30,11 +31,11 @@ vector<int> preorderTraversal(TreeNode* root) {
     res.insert(res.end(), preorderTraversal(root->right).begin(), preorderTraversal(root->right).end());//在res的末尾插入root->right的前序遍历结果(preorderTraversal(root->right))//右子树
     return res;
 }
-
+```
 同理可以写出中序遍历和后序遍历的算法。
 
 中序遍历：
-、、、
+```
  vector<int> inorderTraversal(TreeNode* root) {
      vector<int> res;
      if (root == NULL) return res;
@@ -54,9 +55,9 @@ vector<int> postorderTraversal(TreeNode* root) {
     res.push_back(root->val);
     return res;
 }
-、、、
+```
 当然也可以先定义一个函数进行递归，再调用之。
-
+```
 void traversal(TreeNode* cur, vector<int>& vec) {
     if (cur == NULL) return;//表示如果当前节点指针 cur 为 NULL（即表示当前树节点为空），则直接结束当前函数的执行，并返回到调用它的地方。
     vec.push_back(cur->val);    // 中
@@ -83,19 +84,7 @@ vector<int> postorderTraversal(TreeNode* root) {
     traversal(root, result);
     return result;
 }
-
-我们来leetCode上提交一下，结果非常Amzaing，执行用时仅仅打败了10%的用户。
-
- 力扣144二叉树的前序遍历
-
-力扣94二叉树的中序遍历
-
-力扣145二叉树的后序遍历
-
-
-
-可见递归法的时间复杂度之高。我们尝试用迭代法改进遍历算法吧。
-
+```
 ### 迭代法：
 递归的实现就是每一次调用都会将函数的参数值、局部变量、地址等压入调用的栈中，返回时从栈顶弹出上一次递归的各项参数。
 
@@ -115,6 +104,7 @@ emplace 是多种容器的成员函数，比如 std::vector、std::map、std::
 它允许在容器内部执行原位构造，即在容器中直接构造新的元素，而不是通过复制或移动一个已有的对象来插入新的元素。
 前序遍历：
 
+```
 vector<int> preorderTraversal(TreeNode* root) {
     vector<int> res;
     if (root == NULL)return res;
@@ -132,11 +122,11 @@ vector<int> preorderTraversal(TreeNode* root) {
         }
     return res;
    }
-
+```
 同理，我可以得出中序遍历
 
 中序遍历：
-
+```
 vector<int> inorderTraversal(TreeNode* root) {
     vector<int> res;
     if (root == NULL)return res;
@@ -154,10 +144,11 @@ vector<int> inorderTraversal(TreeNode* root) {
         }
     return res;
 }
+```
 后序遍历：
 
 后序遍历又有不同。后序遍历是 左->右->中 的逻辑，所以在存入中节点之前要确保右节点已全部存入，所以我们引入一个新的指针，last_visited来判断右节点是否判断过。
-
+```
 vector<int> postorderTraversal(TreeNode* root) {
     vector<int> res;
     if (root == NULL) return res;
@@ -185,7 +176,7 @@ vector<int> postorderTraversal(TreeNode* root) {
     }
     return res;
 }
-
+```
 过啦！击败全世界的人！
 
 
@@ -197,7 +188,7 @@ vector<int> postorderTraversal(TreeNode* root) {
 中->左->右；
 
 先存储根节点到res里，然后在栈中存储存储所有的右节点，再存储所有的左节点。最后将栈内的元素依次放入res中，这样就可以保证res 内的顺序是中->左->右了。
-
+```
 vector<int> preorderTraversal(TreeNode* root) {
         stack<TreeNode*> sta;
         vector<int> res;
@@ -212,6 +203,7 @@ vector<int> preorderTraversal(TreeNode* root) {
         }
         return res;
     }
+```
 后序遍历：
 
 中->左->右   ==>  中->右->左  ==>  左 ->右->中
@@ -220,8 +212,8 @@ vector<int> preorderTraversal(TreeNode* root) {
 
 只需要改变入栈顺序，输出中->右->左 的res，并且反转res，得到 左 ->右->中 即可。
 
-代码如下：统一
 
+```
  vector<int> postorderTraversal(TreeNode* root) {
         stack<TreeNode*> sta;
         vector<int> res;
@@ -237,11 +229,12 @@ vector<int> preorderTraversal(TreeNode* root) {
         reverse(res.begin(), res.end()); // 将结果反转之后就是左右中的顺序了
         return res;
     }
+```
 ### 统一的代码风格
 对于中节点，我们用NULL进行标记，单独处理。这样只需要改变代码的顺序就可以描述三种不同的遍历方式。
 
 此处的代码和思想借鉴自 代码随想录  代码随想录原文
-
+```
 //使用NULL进行标记
 // 前序遍历：
 vector<int> preorderTraversal(TreeNode* root) {
@@ -316,13 +309,13 @@ vector<int> postorderTraversal(TreeNode* root) {
     }
     return result;
 }
-
+```
 ## 广度优先遍历（层序遍历）
 迭代法
 栈是先进后出，符合深度遍历的要求。而对于层序遍历，是从depth=0开始，每一层从左向右遍历。属于先进先出的情况，我们可以用对列（queue）进行模拟.
 
 在层序遍历，我们需要在处理每一层节点时，仅处理当前队列中的节点。通过使用 size 变量，我们在每一轮循环中只处理当前队列中所含有的节点，这样可以确保我们按照层级来遍历树中的节点。
-
+```
 vector<vector<int>> levelOrder(TreeNode* root) {
     vector<vector<int>> res;
     queue<TreeNode*> que;
@@ -341,8 +334,9 @@ vector<vector<int>> levelOrder(TreeNode* root) {
     }
     return res;
 }
-
+```
 递归法
+```
 void order(TreeNode*cur,vector<vector<int>>& res ,int depth){
         if(cur==NULL) return ;
         if(res.size()==depth) res.emplace_back(vector<int>());
@@ -357,4 +351,4 @@ void order(TreeNode*cur,vector<vector<int>>& res ,int depth){
         return res;
     }
 
-​
+​```

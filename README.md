@@ -96,12 +96,12 @@ vector<int> postorderTraversal(TreeNode* root) {
 
 
 
-emplace_back:
-emplace_back 是 std::vector 容器的成员函数，它允许我们在 vector 的末尾直接构造一个新的元素。与 push_back 类似，但它使用了就地构造的方式，允许在 vector 的末尾构造元素，而不是通过复制或移动一个已有的对象来添加新的元素。比push_back 拥有更高的效率。
-适用于 std::vector 容器
-emplace:
-emplace 是多种容器的成员函数，比如 std::vector、std::map、std::set 、std::unordered_map、std:unordered_set、std::multiset.stack也可以使用emplace();
-它允许在容器内部执行原位构造，即在容器中直接构造新的元素，而不是通过复制或移动一个已有的对象来插入新的元素。
+>emplace_back:
+>>emplace_back 是 std::vector 容器的成员函数，它允许我们在 vector 的末尾直接构造一个新的元素。与 push_back 类似，但它使用了就地构造的方式，允许在 vector 的末尾构造元素，而不是通过复制或移动一个已有的对象来添加新的元素。比push_back 拥有更高的效率。适用于 std::vector 容器
+
+>emplace:
+>>emplace 是多种容器的成员函数，比如 std::vector、std::map、std::set 、std::unordered_map、std:unordered_set、std::multiset.stack也可以使用emplace();它允许在容器内部执行原位构造，即在容器中直接构造新的元素，而不是通过复制或移动一个已有的对象来插入新的元素。
+
 前序遍历：
 
 ```

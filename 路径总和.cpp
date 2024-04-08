@@ -1,5 +1,7 @@
 #include<iostream>
 #include<stack>
+#include<queue>
+#include<vector>
 
 using namespace std;
 
@@ -60,15 +62,50 @@ public:
 };
 
 
-
-
-
+//
+//
+//
 
 
 //路径总和2
 //给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。
 //说明:叶子节点是指没有子节点的节点。
+class Solution {
+private:
+    vector<vector<int>> res;
+    vector<int> path;
 
+    void traversal(TreeNode* cur, int count) {
+        if (!cur->left && !cur->right && count == 0) {
+            res.push_back(path);
+            return;
+        }
+
+        if (!cur->left && !cur->right)return;
+        if (cur ->left) {
+            path.push_back(cur->left->val);
+            count -= cur->left -> val;
+            traversal(cur->left, count);
+            count += cur->left->val;
+            path.pop_back();
+        }
+        if (cur->right) {
+            path.push_back(cur->right->val);
+            count -= cur->right->val;
+            traversal(cur->right, count);
+            count += cur->right->val;
+            path.pop_back();
+        }
+        return;
+    }
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        if (root == NULL) return res;
+        path.push_back(root->val);
+        traversal(root, sum - root->val);
+        return res;
+    }
+};
 
 int main() {
     Solution1 sol;
